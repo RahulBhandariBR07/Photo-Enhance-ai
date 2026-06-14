@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -149,4 +150,157 @@
     </script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Photo Wizard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center p-4 font-sans">
+
+    <header class="w-full max-w-md text-center my-6">
+        <h1 class="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>AI Photo Wizard
+        </h1>
+        <p class="text-slate-400 text-sm mt-1">Premium Background Remover & Enhancer</p>
+    </header>
+
+    <main class="w-full max-w-md glass rounded-3xl p-6 flex flex-col gap-6 shadow-2xl">
+
+        <div id="dropzone"
+            class="border-2 border-dashed border-slate-700 hover:border-blue-500 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all bg-slate-900/50">
+            <input type="file" id="fileInput" class="hidden" accept="image/*">
+            <i class="fa-solid fa-cloud-arrow-up text-4xl text-blue-400" id="uploadIcon"></i>
+            <p class="text-sm font-medium text-slate-300 text-center" id="uploadText">Tap to select a premium photo</p>
+            <p class="text-xs text-slate-500">Supports JPG, JPEG, PNG</p>
+        </div>
+
+        <div id="previewContainer" class="hidden flex-col items-center gap-2">
+            <p class="text-xs text-slate-400 self-start">Original Image:</p>
+            <img id="imagePreview" class="w-full h-48 object-contain rounded-xl border border-slate-800" src=""
+                alt="Preview">
+        </div>
+
+        <div class="flex flex-col gap-3">
+            <button onclick="processImage('bg-remove')"
+                class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 transition-all active:scale-95">
+                <i class="fa-solid fa-scissors"></i> Remove Background
+            </button>
+            <button onclick="processImage('enhance')"
+                class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-95">
+                <i class="fa-solid fa-wand-magic"></i> Enhance Quality (HD)
+            </button>
+        </div>
+
+        <div id="loadingState" class="hidden flex-col items-center justify-center py-4 gap-2">
+            <div class="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+            <p class="text-sm text-blue-400 font-semibold animate-pulse">AI is working its magic...</p>
+        </div>
+
+        <div id="resultContainer" class="hidden flex-col items-center gap-4 border-t border-slate-800 pt-6">
+            <p class="text-xs text-emerald-400 font-semibold self-start"><i class="fa-solid fa-circle-check mr-1"></i>
+                Processed Successfully!</p>
+            <img id="resultImage" class="w-full h-56 object-contain rounded-xl bg-slate-900 border border-slate-800"
+                src="" alt="Result">
+            <p class="text-xs text-slate-400 text-center">Long-press on the image or click below to save</p>
+            <a id="downloadBtn" href="#" download="ai_wizard_output.png"
+                class="w-full text-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold py-3 px-6 rounded-xl transition-all">
+                <i class="fa-solid fa-download mr-1"></i> Download to Gallery
+            </a>
+        </div>
+
+    </main>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const dropzone = document.getElementById('dropzone');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewContainer = document.getElementById('previewContainer');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultImage = document.getElementById('resultImage');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const loadingState = document.getElementById('loadingState');
+
+        // ASLI TIP: Yahan apna wahi current laptop IPv4 Address dalna h!
+        const API_BASE_URL = "http://10.125.97.178:8000";
+
+        // Click on dropzone to open file picker
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        // Show Preview when image selected
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.style.display = 'flex';
+                    resultContainer.style.display = 'none'; // Hide old results
+                    document.getElementById('uploadText').innerText = file.name;
+                    document.getElementById('uploadIcon').className = "fa-solid fa-file-image text-4xl text-emerald-400";
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Main Function to Connect with Python Backend
+        async function processImage(taskType) {
+            const file = fileInput.files[0];
+            if (!file) {
+                alert("Oye bhai! Pehle gallery se photo toh select kar lo!");
+                return;
+            }
+
+            // UI Adjustments
+            loadingState.style.display = 'flex';
+            resultContainer.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('task_type', taskType);
+
+            try {
+                const response = await fetch("http://10.125.97.178:8000/api/tasks/", {
+                    method: 'POST',
+                    body: formData
+
+                });
+
+                if (!response.ok) throw new Error("Backend side issue!");
+
+                // Handle direct image stream
+                const blob = await response.blob();
+                const imageObjectURL = URL.createObjectURL(blob);
+
+                // Show in Premium Result UI
+                resultImage.src = imageObjectURL;
+                downloadBtn.href = imageObjectURL;
+                // Set correct format download name
+                downloadBtn.download = taskType === 'bg-remove' ? 'transparent_img.png' : 'enhanced_img.jpg';
+
+                resultContainer.style.display = 'flex';
+            } catch (error) {
+                console.error(error);
+                alert("Oops! Server connect nahi ho paya. Apna IP aur Backend check karo.");
+            } finally {
+                loadingState.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+>>>>>>> 8438d4aa2d58611e40c852d0c17b6d1a2f5fcec4
 </html>

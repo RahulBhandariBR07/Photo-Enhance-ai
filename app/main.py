@@ -2,7 +2,11 @@ from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
+<<<<<<< HEAD
 from rembg import remove, new_session
+=======
+import rembg
+>>>>>>> 8438d4aa2d58611e40c852d0c17b6d1a2f5fcec4
 from PIL import Image, ImageEnhance
 import io
 
@@ -31,7 +35,11 @@ async def process_image(
             # BACKGROUND REMOVAL
             if working_img.mode != "RGBA":
                 working_img = working_img.convert("RGBA")
+<<<<<<< HEAD
             output_image = remove(working_img, session=session)
+=======
+            output_image = rembg.remove(working_img)
+>>>>>>> 8438d4aa2d58611e40c852d0c17b6d1a2f5fcec4
             fmt = "PNG"
             media_type = "image/png"
             
