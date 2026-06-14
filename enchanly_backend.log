@@ -1,0 +1,117 @@
+2026-06-13 21:57:53,477 [INFO] enchanly.main: Starting AI Enchanly backend server...
+2026-06-13 21:57:56,729 [INFO] enchanly.main: Initializing application resources...
+2026-06-13 21:57:56,729 [INFO] enchanly.database: Initializing database tables...
+2026-06-13 21:57:56,774 [INFO] enchanly.database: Database tables initialized successfully.
+2026-06-13 21:57:56,777 [INFO] enchanly.main: Storage directories and database initialized.
+2026-06-13 22:11:49,865 [INFO] enchanly.main: Initializing application resources...
+2026-06-13 22:11:49,868 [INFO] enchanly.database: Initializing database tables...
+2026-06-13 22:11:49,892 [INFO] enchanly.database: Database tables initialized successfully.
+2026-06-13 22:11:49,892 [INFO] enchanly.main: Storage directories and database initialized.
+2026-06-14 10:26:11,181 [INFO] enchanly.main: Initializing application resources...
+2026-06-14 10:26:11,182 [INFO] enchanly.database: Initializing database tables...
+2026-06-14 10:26:11,207 [INFO] enchanly.database: Database tables initialized successfully.
+2026-06-14 10:26:11,211 [INFO] enchanly.main: Storage directories and database initialized.
+2026-06-14 10:37:02,006 [INFO] enchanly.routes: Received task request - User: Rahul Bhandari , Type: bg-remove, File: IMG-20260607-WA0353.jpg
+2026-06-14 10:37:02,021 [INFO] enchanly.routes: Saved uploaded original file to: static\uploads\original\c472a56a-71fd-457f-a52b-48e907aa8c2e_IMG-20260607-WA0353.jpg
+2026-06-14 10:37:02,174 [INFO] enchanly.routes: Created task in database with ID: c472a56a-71fd-457f-a52b-48e907aa8c2e
+2026-06-14 10:37:02,175 [INFO] enchanly.routes: Enqueued background task runner for ID: c472a56a-71fd-457f-a52b-48e907aa8c2e
+2026-06-14 10:37:02,187 [INFO] enchanly.services.image: Task runner started for task ID: c472a56a-71fd-457f-a52b-48e907aa8c2e
+2026-06-14 10:37:02,224 [INFO] enchanly.services.image: Task c472a56a-71fd-457f-a52b-48e907aa8c2e status updated to 'processing'
+2026-06-14 10:37:02,228 [INFO] enchanly.services.image: Starting background removal for: static/uploads/original/c472a56a-71fd-457f-a52b-48e907aa8c2e_IMG-20260607-WA0353.jpg
+2026-06-14 10:41:08,029 [ERROR] enchanly.services.image: Exception occurred during task execution: ("Connection broken: ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)", ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+Traceback (most recent call last):
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 903, in _error_catcher
+    yield
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 1028, in _raw_read
+    data = self._fp_read(amt, read1=read1) if not fp_closed else b""
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 1011, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+  File "C:\Program Files\Python39\lib\http\client.py", line 463, in read
+    n = self.readinto(b)
+  File "C:\Program Files\Python39\lib\http\client.py", line 507, in readinto
+    n = self.fp.readinto(b)
+  File "C:\Program Files\Python39\lib\socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Program Files\Python39\lib\ssl.py", line 1242, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Program Files\Python39\lib\ssl.py", line 1100, in read
+    return self._sslobj.read(len, buffer)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\requests\models.py", line 820, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 1257, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 1112, in read
+    data = self._raw_read(amt)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 1057, in _raw_read
+    self._fp.close()
+  File "C:\Program Files\Python39\lib\contextlib.py", line 137, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\urllib3\response.py", line 930, in _error_catcher
+    raise ProtocolError(f"Connection broken: {e!r}", e) from e
+urllib3.exceptions.ProtocolError: ("Connection broken: ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)", ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\app\services\image_service.py", line 137, in run_image_processing_task
+    remove_background(task.original_image_path, processed_path)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\app\services\image_service.py", line 41, in remove_background
+    output_data = rembg.remove(img)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\rembg\bg.py", line 264, in remove
+    session = new_session("u2net", *args, **kwargs)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\rembg\session_factory.py", line 44, in new_session
+    return session_class(model_name, sess_opts, providers, *args, **kwargs)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\rembg\sessions\base.py", line 35, in __init__
+    str(self.__class__.download_models(*args, **kwargs)),
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\rembg\sessions\u2net.py", line 62, in download_models
+    pooch.retrieve(
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\pooch\core.py", line 242, in retrieve
+    stream_download(url, full_path, known_hash, downloader, pooch=None)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\pooch\core.py", line 823, in stream_download
+    downloader(url, tmp, pooch)
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\pooch\downloaders.py", line 250, in __call__
+    for chunk in content:
+  File "C:\Users\rahul\OneDrive\Desktop\Photo Enchance\venv\lib\site-packages\requests\models.py", line 822, in generate
+    raise ChunkedEncodingError(e)
+requests.exceptions.ChunkedEncodingError: ("Connection broken: ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)", ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))
+2026-06-14 10:41:09,699 [INFO] enchanly.services.image: Task runner session closed for task ID: c472a56a-71fd-457f-a52b-48e907aa8c2e
+2026-06-14 10:42:04,269 [INFO] enchanly.routes: Querying details for task ID: c472a56a-71fd-457f-a52b-48e907aa8c2e
+2026-06-14 10:44:23,393 [INFO] enchanly.main: Shutting down application resources...
+2026-06-14 10:44:45,285 [INFO] enchanly.main: Initializing application resources...
+2026-06-14 10:44:45,285 [INFO] enchanly.database: Initializing database tables...
+2026-06-14 10:44:45,304 [INFO] enchanly.database: Database tables initialized successfully.
+2026-06-14 10:44:45,306 [INFO] enchanly.main: Storage directories and database initialized.
+2026-06-14 10:50:56,240 [INFO] enchanly.routes: Received task request - User: Rahul , Type: bg-remove, File: IMG-20260607-WA0361.jpg
+2026-06-14 10:50:56,252 [INFO] enchanly.routes: Saved uploaded original file to: static\uploads\original\3d64454f-7de7-4704-8f82-bae1e4b4e10e_IMG-20260607-WA0361.jpg
+2026-06-14 10:50:56,334 [INFO] enchanly.routes: Created task in database with ID: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:50:56,344 [INFO] enchanly.routes: Enqueued background task runner for ID: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:50:56,352 [INFO] enchanly.services.image: Task runner started for task ID: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:50:56,366 [INFO] enchanly.services.image: Task 3d64454f-7de7-4704-8f82-bae1e4b4e10e status updated to 'processing'
+2026-06-14 10:50:56,373 [INFO] enchanly.services.image: Starting background removal for: static/uploads/original/3d64454f-7de7-4704-8f82-bae1e4b4e10e_IMG-20260607-WA0361.jpg
+2026-06-14 10:51:41,178 [INFO] enchanly.routes: Listing tasks. Filter user_id: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:51:45,410 [INFO] enchanly.routes: Listing tasks. Filter user_id: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:53:53,816 [INFO] enchanly.routes: Querying details for task ID: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:57:13,107 [INFO] enchanly.services.image: Successfully removed background. Saved to: static/uploads\processed\3d64454f-7de7-4704-8f82-bae1e4b4e10e_IMG-20260607-WA0361_processed_3d64454f-7de7-4704-8f82-bae1e4b4e10e.png
+2026-06-14 10:57:13,168 [INFO] enchanly.services.image: Task 3d64454f-7de7-4704-8f82-bae1e4b4e10e completed successfully. Processed file: static/uploads\processed\3d64454f-7de7-4704-8f82-bae1e4b4e10e_IMG-20260607-WA0361_processed_3d64454f-7de7-4704-8f82-bae1e4b4e10e.png
+2026-06-14 10:57:13,168 [INFO] enchanly.services.image: Task runner session closed for task ID: 3d64454f-7de7-4704-8f82-bae1e4b4e10e
+2026-06-14 10:57:15,458 [INFO] enchanly.main: Shutting down application resources...
+2026-06-14 11:04:26,342 [INFO] enchanly.main: Initializing application resources...
+2026-06-14 11:04:26,343 [INFO] enchanly.database: Initializing database tables...
+2026-06-14 11:04:26,366 [INFO] enchanly.database: Database tables initialized successfully.
+2026-06-14 11:04:26,368 [INFO] enchanly.main: Storage directories and database initialized.
+2026-06-14 11:04:46,746 [INFO] enchanly.main: Shutting down application resources...
+2026-06-14 11:06:01,302 [ERROR] enchanly.database: Database session encountered an exception: 400: Invalid task type. Use 'enhance' or 'bg-remove'.
+2026-06-14 11:06:14,216 [ERROR] enchanly.database: Database session encountered an exception: 400: Invalid task type. Use 'enhance' or 'bg-remove'.
+2026-06-14 11:06:19,656 [ERROR] enchanly.database: Database session encountered an exception: 400: Invalid task type. Use 'enhance' or 'bg-remove'.
+2026-06-14 11:06:48,999 [ERROR] enchanly.database: Database session encountered an exception: 400: Invalid task type. Use 'enhance' or 'bg-remove'.
+2026-06-14 11:16:34,129 [INFO] enchanly.main: Shutting down application resources...
+2026-06-14 11:18:05,900 [INFO] enchanly.main: Initializing application resources...
+2026-06-14 11:18:05,900 [INFO] enchanly.database: Initializing database tables...
+2026-06-14 11:18:05,908 [INFO] enchanly.database: Database tables initialized successfully.
+2026-06-14 11:18:05,909 [INFO] enchanly.main: Storage directories and database initialized.
+2026-06-14 11:25:57,269 [INFO] enchanly.main: Shutting down application resources...
