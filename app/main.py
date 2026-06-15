@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import io
 
@@ -8,7 +8,6 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -19,8 +18,8 @@ async def server_frontend():
 
 @app.post("/api/tasks/")
 async def process_image(file: UploadFile = File(...), task_type: str = Form(...)):
-    try:
-        # Tumhara processing logic yahan continue hoga
-        return {"status": "success", "task": task_type}
-    except Exception as e:
-        return {"error": str(e)}
+    # Yahan tumhari image processing logic aayegi
+    # Filhal ke liye testing ke liye original file wapas bhej rahe hain
+    content = await file.read()
+    return StreamingResponse(io.BytesIO(content), media_type="image/jpeg")
+    
