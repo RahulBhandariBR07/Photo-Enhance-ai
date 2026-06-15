@@ -30,11 +30,8 @@ async def process_image(
             # BACKGROUND REMOVAL
             if working_img.mode != "RGBA":
                 working_img = working_img.convert("RGBA")
-<<<<<<< HEAD
-            output_image = remove(working_img, session=session)
-=======
-            output_image = rembg.remove(working_img)
->>>>>>> 8438d4aa2d58611e40c852d0c17b6d1a2f5fcec4
+
+
             fmt = "PNG"
             media_type = "image/png"
             
