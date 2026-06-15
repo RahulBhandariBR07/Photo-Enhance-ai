@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import StreamingResponse, HTMLResponse
+from fastapi .responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image, ImageEnhance
 import io
@@ -13,7 +14,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+ @app.get("/")
+        async def server_frontend():
+            return FileResponse("app/index.html")
+            
 @app.post("/api/tasks/")
 async def process_image(file: UploadFile = File(...), task_type: str = Form("bg-remove")):
     try:
@@ -53,3 +57,5 @@ async def process_image(file: UploadFile = File(...), task_type: str = Form("bg-
     except Exception as e:
         # Proper JSON error response
         raise HTTPException(status_code=500, detail=str(e))
+      
+       
