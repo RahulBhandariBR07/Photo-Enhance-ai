@@ -19,7 +19,7 @@ async def process_image(file: UploadFile = File(...), task_type: str = Form(...)
     input_data = await file.read()
     
     # 2. Background remove logic
-    if task_type == "remove_background":
+    if task_type == "bg-remove":
         output_data = remove(input_data)
     else:
         output_data = input_data
